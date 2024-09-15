@@ -14,13 +14,37 @@ namespace SimpleCalculator
                 // Class to perform actual calculations
                 CalculatorEngine calculatorEngine = new CalculatorEngine();
 
-                double firstNumber = inputConverter.ConvertInputToNumeric(Console.ReadLine());
-                double secondNumber = inputConverter.ConvertInputToNumeric(Console.ReadLine());
-                string operation = Console.ReadLine();
+                double firstNumber;
+                while (!double.TryParse(Console.ReadLine(), out firstNumber)){
+                    Console.WriteLine("Invalid input. Please try again: ");
+                    Console.WriteLine("Valid inputs are numbers.");
+                }
+
+                double secondNumber;
+                 while (!double.TryParse(Console.ReadLine(), out secondNumber)){
+                    Console.WriteLine("Invalid input. Please try again: ");
+                    Console.WriteLine("Valid inputs are numbers");
+                }
+
+                String operation;
+                bool isValid = false;
+
+                while (isValid == false){
+                     if (operation.ToLower() != "add" && operation != "+" && operation.ToLower() != "divide" && operation != "/"){
+                         Console.WriteLine("Invalid input. Please try again: ");
+                         Console.WriteLine("add, +, divide, and / are the only valide inputs.")
+                    }    
+                    else{
+                        isValid = true;
+                    }
+                }       
 
                 double result = calculatorEngine.Calculate(operation, firstNumber, secondNumber);
 
-                Console.WriteLine(result);
+                StringBuilder results = new StringBuilder();
+                results.Append("The value {0} {1} the value {2} is equal to {3}.", firstNumber, operation, secondNumber, result);
+                
+                Console.WriteLine(results.ToString());
 
             } catch (Exception ex)
             {
