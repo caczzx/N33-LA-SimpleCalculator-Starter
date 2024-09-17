@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace SimpleCalculator
 {
@@ -8,50 +9,61 @@ namespace SimpleCalculator
         {
             try
             {
-                // Class to convert user input
-                InputConverter inputConverter = new InputConverter();
-
-                // Class to perform actual calculations
                 CalculatorEngine calculatorEngine = new CalculatorEngine();
 
+                Console.WriteLine("Enter the first number:");
                 double firstNumber;
-                while (!double.TryParse(Console.ReadLine(), out firstNumber)){
+                while (!double.TryParse(Console.ReadLine(), out firstNumber))
+                {
                     Console.WriteLine("Invalid input. Please try again: ");
                     Console.WriteLine("Valid inputs are numbers.");
                 }
 
+                Console.WriteLine("Enter the second number:");
                 double secondNumber;
-                 while (!double.TryParse(Console.ReadLine(), out secondNumber)){
+                while (!double.TryParse(Console.ReadLine(), out secondNumber))
+                {
                     Console.WriteLine("Invalid input. Please try again: ");
-                    Console.WriteLine("Valid inputs are numbers");
+                    Console.WriteLine("Valid inputs are numbers.");
                 }
 
-                String operation;
+                Console.WriteLine("Enter the operation (add, +, divide, /, subtract, -, multiply, *, modulus, %):");
+
+               
+                string operation = string.Empty;
                 bool isValid = false;
 
-                while (isValid == false){
-                     if (operation.ToLower() != "add" && operation != "+" && operation.ToLower() != "divide" && operation != "/"){
-                         Console.WriteLine("Invalid input. Please try again: ");
-                         Console.WriteLine("add, +, divide, and / are the only valide inputs.")
-                    }    
-                    else{
+                while (!isValid)
+                {
+                    operation = Console.ReadLine(); 
+
+                    if (operation.ToLower() != "add" && operation != "+" &&
+                        operation.ToLower() != "divide" && operation != "/" &&
+                        operation.ToLower() != "subtract" && operation != "-" &&
+                        operation.ToLower() != "multiply" && operation != "*" &&
+                        operation.ToLower() != "modulus" && operation != "%")
+                    {
+                        Console.WriteLine("Invalid input. Please try again: ");
+                        Console.WriteLine("Valid inputs are add, +, divide, /, subtract, -, multiply, *, modulus, %.");
+                    }
+                    else
+                    {
                         isValid = true;
                     }
-                }       
+                }
 
+               
                 double result = calculatorEngine.Calculate(operation, firstNumber, secondNumber);
 
-                StringBuilder results = new StringBuilder();
-                results.Append("The value {0} {1} the value {2} is equal to {3}.", firstNumber, operation, secondNumber, result);
-                
-                Console.WriteLine(results.ToString());
+              
+                string results = string.Format("The value {0} {1} the value {2} is equal to {3}.", firstNumber, operation, secondNumber, result);
 
-            } catch (Exception ex)
+                Console.WriteLine(results);
+            }
+            catch (Exception ex)
             {
-                // Normally, we'd log this error to a file.
                 Console.WriteLine(ex.Message);
             }
-
         }
     }
 }
